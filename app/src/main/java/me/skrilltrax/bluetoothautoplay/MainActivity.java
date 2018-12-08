@@ -1,5 +1,6 @@
 package me.skrilltrax.bluetoothautoplay;
 
+import android.bluetooth.BluetoothAdapter;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -21,6 +22,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Intent i = new Intent(this,me.skrilltrax.bluetoothautoplay.NLService.class);
         startService(i);
+        BTListener btListener = new BTListener(this);
+
     }
 
     public void onClick(View view) {
