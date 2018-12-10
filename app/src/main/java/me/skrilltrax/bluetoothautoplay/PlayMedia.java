@@ -11,13 +11,11 @@ import java.util.List;
 
 public class PlayMedia {
 
-    private MediaSessionManager mediaSessionManager;
-
     private List<MediaController> mediaControllers;
 
     PlayMedia(Context context) {
 
-        mediaSessionManager = (MediaSessionManager)
+        MediaSessionManager mediaSessionManager = (MediaSessionManager)
                 context.getSystemService(Context.MEDIA_SESSION_SERVICE);
         mediaControllers = mediaSessionManager
                 .getActiveSessions(new ComponentName("me.skrilltrax.bluetoothautoplay"
@@ -27,9 +25,8 @@ public class PlayMedia {
     public void start() {
         Log.e("PlayMedia",String.valueOf(mediaControllers.size()));
 
-        if(mediaControllers.size()>0)
+        if(mediaControllers.size()>0) {
 
-        {
             MediaController mediaController = mediaControllers.get(0);
             mediaController.dispatchMediaButtonEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_PLAY));
             mediaController.dispatchMediaButtonEvent(new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MEDIA_PLAY));

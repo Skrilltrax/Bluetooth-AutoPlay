@@ -1,45 +1,99 @@
 package me.skrilltrax.bluetoothautoplay;
 
-import android.bluetooth.BluetoothAdapter;
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
-import android.media.session.MediaController;
-import android.media.session.MediaSessionManager;
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Color;
 
-import java.util.List;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
+
+    public static final String ACTION_NOTIFICATION_LISTENER = "android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS";
+    private boolean serviceEnabled;
+    private TextView autoplayStatus;
+    private Button button;
+
+    public static final String TAG = "MAIN_ACTIVITY";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Intent i = new Intent(this,me.skrilltrax.bluetoothautoplay.NLService.class);
-        startService(i);
-        BTListener btListener = new BTListener(this);
+
+        Log.e("MAIN_ACTIVITY", "HERE");
+
+        serviceEnabled = NLService.isEnabled(this);
+        autoplayStatus = findViewById(R.id.autoplay_status);
+        button = findViewById(R.id.button);
+
+        if(!serviceEnabled) {
+          autoplayStatus.setText(getString(R.string.disabled));
+          autoplayStatus.setTextColor(Color.RED);
+          button.setText(getString(R.string.enable));
+        } else {
+            autoplayStatus.setText(getString(R.string.enabled));
+            autoplayStatus.setTextColor(Color.GREEN);
+            button.setText(getString(R.string.disable));
+        }
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.e(TAG,"RESUMED");
+        serviceEnabled = NLService.isEnabled(this);
+        createUI();
+    }
+
     public void onClick(View view) {
-        MediaSessionManager mediaSessionManager = (MediaSessionManager)
-                this.getSystemService(Context.MEDIA_SESSION_SERVICE);
 
-        List<MediaController> mediaControllers = mediaSessionManager
-                .getActiveSessions(new ComponentName("me.skrilltrax.bluetoothautoplay", "me.skrilltrax.bluetoothautoplay.NLService"));
-
-        Log.e("SIZE",String.valueOf(mediaControllers.size()));
-
-        if (mediaControllers.size() > 0) {
-            MediaController mediaController = mediaControllers.get(0);
-            mediaController.dispatchMediaButtonEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_PLAY));
-            mediaController.dispatchMediaButtonEvent(new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MEDIA_PLAY));
-
+        if(!serviceEnabled) {
+            AlertDialog alertDialog = createAlertDialog();
+            alertDialog.show();
+        } else {
+            startActivity(new Intent(ACTION_NOTIFICATION_LISTENER));
         }
+    }
+
+    private void createUI() {
+        if(!serviceEnabled) {
+            autoplayStatus.setText(getString(R.string.disabled));
+            autoplayStatus.setTextColor(Color.RED);
+            button.setText(getString(R.string.enable));
+        } else {
+            autoplayStatus.setText(getString(R.string.enabled));
+            autoplayStatus.setTextColor(Color.GREEN);
+            button.setText(getString(R.string.disable));
+        }
+    }
+
+    private AlertDialog createAlertDialog() {
+
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setTitle(R.string.notification_listener);
+        alertDialogBuilder.setMessage(R.string.notification_listener_service_explanation);
+        alertDialogBuilder.setPositiveButton(R.string.yes,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        startActivity(new Intent(ACTION_NOTIFICATION_LISTENER));
+                    }
+                });
+        alertDialogBuilder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+
+        return alertDialogBuilder.create();
     }
 }

@@ -8,9 +8,11 @@ import androidx.core.app.NotificationManagerCompat;
 
 public class NLService extends NotificationListenerService {
 
+    public static final String TAG = "NLSERVICE";
+
     @Override
     public void onListenerConnected() {
-        Log.e("NLSERVICE","CONNECTED");
+        Log.e(TAG,"CONNECTED");
     }
 
     public static boolean isEnabled (Context context) {

@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">Bluetooth Autoplay</string>
+    <string name="notification_listener">Access Notifications Permission</string>
+    <string name="notification_listener_service_explanation">Notification access is required to acces the song which should resume when the bluetooth device connects.</string>
+    <string name="no">No</string>
+    <string name="yes">Yes</string>
+    <string name="autoplay_status">Autoplay Status</string>
+    <string name="button">Button</string>
+    <string name="enabled">Enabled</string>
+    <string name="disable">Disable</string>
+    <string name="disabled">Disabled</string>
+    <string name="enable">Enable</string>
 </resources>
