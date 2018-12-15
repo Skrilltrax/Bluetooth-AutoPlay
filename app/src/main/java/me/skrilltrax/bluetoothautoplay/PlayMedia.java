@@ -30,7 +30,7 @@ public class PlayMedia {
             MediaController mediaController = mediaControllers.get(0);
             mediaController.dispatchMediaButtonEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_PLAY));
             mediaController.dispatchMediaButtonEvent(new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MEDIA_PLAY));
-
+            Log.e("BTConnectionReceiver", "Key Event Dispatched");
         }
     }
 }

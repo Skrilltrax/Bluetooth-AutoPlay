@@ -1,5 +1,6 @@
 package me.skrilltrax.bluetoothautoplay;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -43,6 +44,16 @@ public class MainActivity extends AppCompatActivity {
             button.setText(getString(R.string.disable));
         }
 
+        Button serviceButton = findViewById(R.id.service_button);
+        serviceButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.e(TAG, "In OnClickStartService");
+                Context context = v.getContext();
+                Intent i = new Intent(v.getContext(),AutoPlayService.class);
+                context.startService(i);
+            }
+        });
     }
 
     @Override
