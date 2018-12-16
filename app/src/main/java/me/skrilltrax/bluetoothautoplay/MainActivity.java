@@ -9,17 +9,23 @@ import android.widget.TextView;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.widget.Toast;
 
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import me.skrilltrax.bluetoothautoplay.Services.AutoPlayService;
+import me.skrilltrax.bluetoothautoplay.Services.NLService;
 
 public class MainActivity extends AppCompatActivity {
 
     public static final String ACTION_NOTIFICATION_LISTENER = "android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS";
-    private boolean serviceEnabled;
+    public boolean usesService = false;
+
+    boolean serviceEnabled;
     private TextView autoplayStatus;
     private Button button;
+
 
     public static final String TAG = "MAIN_ACTIVITY";
 
@@ -27,24 +33,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         Log.e("MAIN_ACTIVITY", "HERE");
 
-        serviceEnabled = NLService.isEnabled(this);
+        serviceEnabled = NLService.isEnabled(getApplicationContext());
         autoplayStatus = findViewById(R.id.autoplay_status);
         button = findViewById(R.id.button);
-
-        if(!serviceEnabled) {
-          autoplayStatus.setText(getString(R.string.disabled));
-          autoplayStatus.setTextColor(Color.RED);
-          button.setText(getString(R.string.enable));
-        } else {
-            autoplayStatus.setText(getString(R.string.enabled));
-            autoplayStatus.setTextColor(Color.GREEN);
-            button.setText(getString(R.string.disable));
-        }
-
         Button serviceButton = findViewById(R.id.service_button);
+
+        createBroadcastUI();
+
         serviceButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -52,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
                 Context context = v.getContext();
                 Intent i = new Intent(v.getContext(),AutoPlayService.class);
                 context.startService(i);
+                Toast.makeText(context,"Service Started",Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -60,8 +58,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         Log.e(TAG,"RESUMED");
-        serviceEnabled = NLService.isEnabled(this);
-        createUI();
+        serviceEnabled = NLService.isEnabled(getApplicationContext());
+        createBroadcastUI();
     }
 
     public void onClick(View view) {
@@ -74,7 +72,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void createUI() {
+    private void createBroadcastUI() {
+        serviceEnabled = NLService.isEnabled(getApplicationContext());
+        Log.e(TAG,String.valueOf(serviceEnabled));
         if(!serviceEnabled) {
             autoplayStatus.setText(getString(R.string.disabled));
             autoplayStatus.setTextColor(Color.RED);
@@ -84,6 +84,10 @@ public class MainActivity extends AppCompatActivity {
             autoplayStatus.setTextColor(Color.GREEN);
             button.setText(getString(R.string.disable));
         }
+    }
+
+    private void createServiceUI() {
+
     }
 
     private AlertDialog createAlertDialog() {
