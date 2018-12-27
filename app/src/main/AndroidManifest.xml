@@ -6,6 +6,7 @@
 
     <uses-permission android:name="android.Manifest.permission.MEDIA_CONTENT_CONTROL" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
         android:allowBackup="true"
