@@ -1,4 +1,4 @@
-package me.skrilltrax.bluetoothautoplay.Services;
+package me.skrilltrax.bluetoothautoplay.services;
 
 import android.content.Context;
 import android.service.notification.NotificationListenerService;

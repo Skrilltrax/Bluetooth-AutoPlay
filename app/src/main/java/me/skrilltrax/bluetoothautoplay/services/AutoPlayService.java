@@ -1,7 +1,8 @@
-package me.skrilltrax.bluetoothautoplay.Services;
+package me.skrilltrax.bluetoothautoplay.services;
 
 import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothHeadset;
 import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -9,14 +10,17 @@ import android.os.IBinder;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
-import me.skrilltrax.bluetoothautoplay.BroadcastReceivers.BReceiver;
+import me.skrilltrax.bluetoothautoplay.Utils;
+import me.skrilltrax.bluetoothautoplay.broadcastreceivers.BReceiver;
 
 public class AutoPlayService extends Service {
 
     public static final String TAG = "AutoPlayService";
     public static boolean isRunning  = false;
+    public static int ID = 123;
 
     BroadcastReceiver broadcastReceiver;
+    Intent stopIntent;
 
     @Nullable
     @Override
@@ -28,12 +32,11 @@ public class AutoPlayService extends Service {
     public void onCreate() {
         super.onCreate();
         Log.e(TAG, "In onCreate");
-
+        startForeground(ID,Utils.createNotification(getApplicationContext()));
         broadcastReceiver = new BReceiver();
         IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(BluetoothAdapter.ACTION_CONNECTION_STATE_CHANGED);
+        intentFilter.addAction(BluetoothHeadset.ACTION_CONNECTION_STATE_CHANGED);
         registerReceiver(broadcastReceiver, intentFilter);
-        isRunning = true;
     }
 
     @Override
@@ -41,7 +44,6 @@ public class AutoPlayService extends Service {
         super.onDestroy();
         Log.e(TAG,"In onDestroy");
         unregisterReceiver(broadcastReceiver);
-        isRunning = false;
     }
 }
 

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="me.skrilltrax.bluetoothautoplay">
-
 
     <uses-permission android:name="android.Manifest.permission.MEDIA_CONTENT_CONTROL" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
@@ -24,26 +24,18 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".Services.NLService"
-            android:label="NLService"
+        <service android:name=".services.NLService"
+            android:label="Bluetooth Autoplay"
             android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
             <intent-filter>
                 <action android:name="android.service.notification.NotificationListenerService" />
             </intent-filter>
         </service>
 
-        <service android:name=".Services.AutoPlayService"
+        <service android:name=".services.AutoPlayService"
             android:exported="true"
             android:enabled="true"
             android:permission="" />
 
-        <receiver android:name=".BroadcastReceivers.BTConnectionReceiver"  android:exported="true">
-            <intent-filter>
-                <action android:name="android.bluetooth.headset.profile.action.CONNECTION_STATE_CHANGED" />
-                <action android:name="android.bluetooth.device.action.ACL_CONNECTED" />
-            </intent-filter>
-        </receiver>
-
     </application>
-
 </manifest>

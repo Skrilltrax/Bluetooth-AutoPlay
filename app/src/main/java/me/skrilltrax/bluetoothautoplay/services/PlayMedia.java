@@ -1,4 +1,4 @@
-package me.skrilltrax.bluetoothautoplay.Services;
+package me.skrilltrax.bluetoothautoplay.services;
 
 import android.content.ComponentName;
 import android.content.Context;
@@ -19,7 +19,7 @@ public class PlayMedia {
                 context.getSystemService(Context.MEDIA_SESSION_SERVICE);
         mediaControllers = mediaSessionManager
                 .getActiveSessions(new ComponentName("me.skrilltrax.bluetoothautoplay"
-                                                    ,"me.skrilltrax.bluetoothautoplay.Services.NLService"));
+                                                    ,"me.skrilltrax.bluetoothautoplay.services.NLService"));
     }
 
     public void start() {
