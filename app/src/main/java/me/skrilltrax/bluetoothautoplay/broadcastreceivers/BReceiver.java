@@ -2,6 +2,7 @@ package me.skrilltrax.bluetoothautoplay.broadcastreceivers;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothHeadset;
+import android.bluetooth.BluetoothProfile;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -25,10 +26,10 @@ public class BReceiver extends BroadcastReceiver {
         int state;
         Bundle extras = intent.getExtras();
         if (extras != null) {
-            state = extras.getInt(BluetoothHeadset.EXTRA_STATE);
+            state = extras.getInt(BluetoothProfile.EXTRA_STATE);
             Log.e(TAG, String.valueOf(state));
             if (intent.getAction().equals(BluetoothHeadset.ACTION_CONNECTION_STATE_CHANGED)) {
-                if (state == BluetoothHeadset.STATE_CONNECTED) {
+                if (state == BluetoothProfile.STATE_CONNECTED) {
                     try {
                         Thread.sleep(2000);
                         PlayMedia playMedia = new PlayMedia(context);

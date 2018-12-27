@@ -23,6 +23,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ServiceActivity" />
 
         <service android:name=".services.NLService"
             android:label="Bluetooth Autoplay"

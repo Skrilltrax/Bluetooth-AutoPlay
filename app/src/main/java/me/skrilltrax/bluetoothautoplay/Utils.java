@@ -12,7 +12,6 @@ import android.os.Build;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.NotificationCompat;
-import me.skrilltrax.bluetoothautoplay.services.AutoPlayService;
 
 import static me.skrilltrax.bluetoothautoplay.MainActivity.ACTION_NOTIFICATION_LISTENER;
 
@@ -48,9 +47,9 @@ public class Utils {
 
     public static Notification createNotification(final Context context) {
 
-        Intent intent = new Intent(context, AutoPlayService.class);
+        Intent intent = new Intent(context, ServiceActivity.class);
         intent.setAction(ACTION_STOP_SERVICE);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_NO_CREATE);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
 
         createNotificationChannel(context);
 
@@ -58,8 +57,7 @@ public class Utils {
         notificationBuilder.setSmallIcon(R.drawable.ic_launcher_foreground)
                 .setPriority(NotificationCompat.PRIORITY_MIN)
                 .setContentTitle("Service Running")
-                .setOngoing(true)
-                .setWhen(0)
+                .setAutoCancel(true)
                 .setContentIntent(pendingIntent);
         return notificationBuilder.build();
     }
@@ -78,5 +76,19 @@ public class Utils {
             NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
+    }
+
+    static boolean isServiceRunning(Class<?> serviceClass,
+                                           Context context) {
+        ActivityManager manager = (ActivityManager)
+                context.getSystemService(Context.ACTIVITY_SERVICE);
+        assert manager != null;
+        for (ActivityManager.RunningServiceInfo service :
+                manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
     }
 }

@@ -16,11 +16,9 @@ import me.skrilltrax.bluetoothautoplay.broadcastreceivers.BReceiver;
 public class AutoPlayService extends Service {
 
     public static final String TAG = "AutoPlayService";
-    public static boolean isRunning  = false;
     public static int ID = 123;
 
     BroadcastReceiver broadcastReceiver;
-    Intent stopIntent;
 
     @Nullable
     @Override
@@ -44,6 +42,12 @@ public class AutoPlayService extends Service {
         super.onDestroy();
         Log.e(TAG,"In onDestroy");
         unregisterReceiver(broadcastReceiver);
+    }
+
+    @Override
+    public boolean stopService(Intent name) {
+        unregisterReceiver(broadcastReceiver);
+        return super.stopService(name);
     }
 }
 

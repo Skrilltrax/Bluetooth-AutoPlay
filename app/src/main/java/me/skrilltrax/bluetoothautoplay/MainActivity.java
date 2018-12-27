@@ -37,7 +37,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Log.e("MAIN_ACTIVITY", "HERE");
 
-        notificationEnabled = NLService.isEnabled(getApplicationContext());
+        notificationEnabled = NLService.isEnabled(MainActivity.this);
+        serviceRunning = Utils.isServiceRunning(AutoPlayService.class, this);
 
         autoplayStatus = findViewById(R.id.notification_status);
         button = findViewById(R.id.button);
@@ -58,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
                     startService(i);
                 }
                 Toast.makeText(context,"Service Started",Toast.LENGTH_SHORT).show();
+                createUI();
             }
         });
     }
@@ -66,12 +68,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         Log.e(TAG,"RESUMED");
-        notificationEnabled = NLService.isEnabled(getApplicationContext());
+        notificationEnabled = NLService.isEnabled(MainActivity.this);
+        serviceRunning = Utils.isServiceRunning(AutoPlayService.class,this);
         createUI();
     }
 
     public void onClick(View view) {
 
+        notificationEnabled = NLService.isEnabled(MainActivity.this);
         if(!notificationEnabled) {
             AlertDialog alertDialog = Utils.createAlertDialog(this);
             alertDialog.show();
@@ -81,16 +85,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void createUI() {
-        notificationEnabled = NLService.isEnabled(getApplicationContext());
+        notificationEnabled = NLService.isEnabled(MainActivity.this);
+        serviceRunning = Utils.isServiceRunning(AutoPlayService.class,getApplicationContext());
         Log.e(TAG,String.valueOf(notificationEnabled));
         if(!notificationEnabled) {
             autoplayStatus.setText(getString(R.string.disabled));
-            autoplayStatus.setTextColor(Color.RED);
             button.setText(getString(R.string.enable));
         } else {
             autoplayStatus.setText(getString(R.string.enabled));
-            autoplayStatus.setTextColor(Color.GREEN);
             button.setText(getString(R.string.disable));
+        }
+        if(!serviceRunning) {
+            serviceStatus.setText(getString(R.string.disabled));
+        } else {
+            serviceStatus.setText(getString(R.string.enabled));
         }
     }
 }
