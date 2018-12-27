@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.AudioPlaybackConfiguration;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -31,7 +32,10 @@ public class BReceiver extends BroadcastReceiver {
             if (intent.getAction().equals(BluetoothHeadset.ACTION_CONNECTION_STATE_CHANGED)) {
                 if (state == BluetoothProfile.STATE_CONNECTED) {
                     try {
-                        Thread.sleep(2000);
+                        if(Build.MANUFACTURER.toUpperCase().equals("ONEPLUS"))
+                            Thread.sleep(3000);
+                        else
+                            Thread.sleep(1200);
                         PlayMedia playMedia = new PlayMedia(context);
                         playMedia.start();
                     } catch (InterruptedException e) {
