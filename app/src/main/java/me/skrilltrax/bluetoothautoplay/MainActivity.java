@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Log.e("MAIN_ACTIVITY", "HERE");
+        Log.d("MAIN_ACTIVITY", "HERE");
 
         notificationEnabled = NLService.isEnabled(MainActivity.this);
         serviceRunning = Utils.isServiceRunning(AutoPlayService.class, this);
@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         serviceButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e(TAG, "In OnClickStartService");
+                Log.d(TAG, "In OnClickStartService");
                 Context context = v.getContext();
                 Intent i = new Intent(v.getContext(),AutoPlayService.class);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Log.e(TAG,"RESUMED");
+        Log.d(TAG,"RESUMED");
         notificationEnabled = NLService.isEnabled(MainActivity.this);
         serviceRunning = Utils.isServiceRunning(AutoPlayService.class,this);
         createUI();
@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
     private void createUI() {
         notificationEnabled = NLService.isEnabled(MainActivity.this);
         serviceRunning = Utils.isServiceRunning(AutoPlayService.class,getApplicationContext());
-        Log.e(TAG,String.valueOf(notificationEnabled));
+        Log.d(TAG,String.valueOf(notificationEnabled));
         if(!notificationEnabled) {
             autoplayStatus.setText(getString(R.string.disabled));
             button.setText(getString(R.string.enable));

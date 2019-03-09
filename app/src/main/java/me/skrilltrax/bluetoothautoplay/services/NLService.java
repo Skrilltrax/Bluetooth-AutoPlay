@@ -12,12 +12,12 @@ public class NLService extends NotificationListenerService {
 
     @Override
     public void onListenerConnected() {
-        Log.e(TAG,"CONNECTED");
+        Log.d(TAG,"CONNECTED");
     }
 
     public static boolean isEnabled (Context context) {
 
-        Log.e(TAG,String.valueOf(NotificationManagerCompat.getEnabledListenerPackages(context)));
+        Log.d(TAG,String.valueOf(NotificationManagerCompat.getEnabledListenerPackages(context)));
         return NotificationManagerCompat
                 .getEnabledListenerPackages(context)
                 .contains(context.getPackageName());

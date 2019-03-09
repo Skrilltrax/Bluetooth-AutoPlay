@@ -23,14 +23,14 @@ public class PlayMedia {
     }
 
     public void start() {
-        Log.e("PlayMedia",String.valueOf(mediaControllers.size()));
+        Log.d("PlayMedia",String.valueOf(mediaControllers.size()));
 
         if(mediaControllers.size()>0) {
 
             MediaController mediaController = mediaControllers.get(0);
             mediaController.dispatchMediaButtonEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_PLAY));
             mediaController.dispatchMediaButtonEvent(new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MEDIA_PLAY));
-            Log.e("BTConnectionReceiver", "Key Event Dispatched");
+            Log.d("BTConnectionReceiver", "Key Event Dispatched");
         }
     }
 }

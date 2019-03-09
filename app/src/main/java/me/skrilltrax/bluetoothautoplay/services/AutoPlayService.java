@@ -29,7 +29,7 @@ public class AutoPlayService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.e(TAG, "In onCreate");
+        Log.d(TAG, "In onCreate");
         startForeground(ID,Utils.createNotification(getApplicationContext()));
         broadcastReceiver = new BReceiver();
         IntentFilter intentFilter = new IntentFilter();
@@ -40,7 +40,7 @@ public class AutoPlayService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.e(TAG,"In onDestroy");
+        Log.d(TAG,"In onDestroy");
         unregisterReceiver(broadcastReceiver);
     }
 

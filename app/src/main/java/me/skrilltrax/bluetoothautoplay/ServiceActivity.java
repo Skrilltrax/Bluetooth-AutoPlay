@@ -16,7 +16,7 @@ public class ServiceActivity extends Activity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         stopService(new Intent(getApplicationContext(), AutoPlayService.class));
-        Log.e(TAG,"In OnCreate");
+        Log.d(TAG,"In OnCreate");
         finish();
     }
 }

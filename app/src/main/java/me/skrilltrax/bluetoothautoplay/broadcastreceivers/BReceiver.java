@@ -32,7 +32,7 @@ public class BReceiver extends BroadcastReceiver {
             if (intent.getAction().equals(BluetoothHeadset.ACTION_CONNECTION_STATE_CHANGED)) {
                 if (state == BluetoothProfile.STATE_CONNECTED) {
                     try {
-                        if(Build.MANUFACTURER.toUpperCase().equals("ONEPLUS"))
+                        if(Build.MANUFACTURER.equalsIgnoreCase("Oneplus"))
                             Thread.sleep(3000);
                         else
                             Thread.sleep(1200);

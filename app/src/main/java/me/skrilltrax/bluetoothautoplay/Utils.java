@@ -18,10 +18,7 @@ import static me.skrilltrax.bluetoothautoplay.MainActivity.ACTION_NOTIFICATION_L
 public class Utils {
 
     private static final String CHANNEL_ID = "Main_Notification";
-    public static final String ACTION_STOP_SERVICE = "me.skrilltrax.BluetoothAuoPlay.STOP_SERVICE";
-
-    public Utils() {
-    }
+    public static final String ACTION_STOP_SERVICE = "me.skrilltrax.BluetoothAutoPlay.STOP_SERVICE";
 
     static AlertDialog createAlertDialog(final Context context) {
 
