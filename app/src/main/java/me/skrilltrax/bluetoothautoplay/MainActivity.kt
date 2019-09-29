@@ -15,7 +15,7 @@ class MainActivity : AppCompatActivity() {
     private var notificationEnabled: Boolean = false
     private var serviceRunning: Boolean = false
     private lateinit var autoplayStatus: TextView
-    private lateinit var button: Button
+    private lateinit var accessButton: Button
     private lateinit var serviceStatus: TextView
     private lateinit var serviceButton: Button
 
@@ -43,11 +43,21 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(context, "Service Started", Toast.LENGTH_SHORT).show()
             createUI()
         }
+
+        accessButton.setOnClickListener {
+            notificationEnabled = NLService.isEnabled(this@MainActivity)
+            if (!notificationEnabled) {
+                val alertDialog = Utils.createAlertDialog(this)
+                alertDialog.show()
+            } else {
+                startActivity(Intent(Constants.ACTION_NOTIFICATION_LISTENER))
+            }
+        }
     }
 
     private fun findViews() {
         autoplayStatus = findViewById(R.id.notification_status)
-        button = findViewById(R.id.button)
+        accessButton = findViewById(R.id.button)
         serviceStatus = findViewById(R.id.autoplay_status)
         serviceButton = findViewById(R.id.service_button)
     }
@@ -59,26 +69,15 @@ class MainActivity : AppCompatActivity() {
         createUI()
     }
 
-    fun onClick() {
-
-        notificationEnabled = NLService.isEnabled(this@MainActivity)
-        if (!notificationEnabled) {
-            val alertDialog = Utils.createAlertDialog(this)
-            alertDialog.show()
-        } else {
-            startActivity(Intent(Constants.ACTION_NOTIFICATION_LISTENER))
-        }
-    }
-
     private fun createUI() {
         notificationEnabled = NLService.isEnabled(this@MainActivity)
         serviceRunning = Utils.isServiceRunning(AutoPlayService::class.java, applicationContext)
         if (!notificationEnabled) {
             autoplayStatus.text = getString(R.string.disabled)
-            button.text = getString(R.string.enable)
+            accessButton.text = getString(R.string.enable)
         } else {
             autoplayStatus.text = getString(R.string.enabled)
-            button.text = getString(R.string.disable)
+            accessButton.text = getString(R.string.disable)
         }
         if (!serviceRunning) {
             serviceStatus.text = getString(R.string.disabled)
