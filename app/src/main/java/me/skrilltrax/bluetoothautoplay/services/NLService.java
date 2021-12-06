@@ -16,7 +16,6 @@ public class NLService extends NotificationListenerService {
     }
 
     public static boolean isEnabled (Context context) {
-
         Log.d(TAG,String.valueOf(NotificationManagerCompat.getEnabledListenerPackages(context)));
         return NotificationManagerCompat
                 .getEnabledListenerPackages(context)

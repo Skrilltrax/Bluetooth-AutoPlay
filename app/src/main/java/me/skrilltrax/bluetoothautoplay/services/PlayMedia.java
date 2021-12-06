@@ -17,9 +17,7 @@ public class PlayMedia {
 
         MediaSessionManager mediaSessionManager = (MediaSessionManager)
                 context.getSystemService(Context.MEDIA_SESSION_SERVICE);
-        mediaControllers = mediaSessionManager
-                .getActiveSessions(new ComponentName("me.skrilltrax.bluetoothautoplay"
-                                                    ,"me.skrilltrax.bluetoothautoplay.services.NLService"));
+        mediaControllers = mediaSessionManager.getActiveSessions(new ComponentName("me.skrilltrax.bluetoothautoplay","me.skrilltrax.bluetoothautoplay.services.NLService"));
     }
 
     public void start() {

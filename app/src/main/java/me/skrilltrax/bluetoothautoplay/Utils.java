@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
+import android.os.PersistableBundle;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.NotificationCompat;
@@ -46,7 +47,14 @@ public class Utils {
 
         Intent intent = new Intent(context, ServiceActivity.class);
         intent.setAction(ACTION_STOP_SERVICE);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+        PendingIntent pendingIntent = null;
+        int pendingIntentFlag = 0;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            pendingIntentFlag = PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT;
+        } else {
+            pendingIntentFlag = PendingIntent.FLAG_UPDATE_CURRENT;
+        }
+        pendingIntent = PendingIntent.getActivity(context, 0, intent, pendingIntentFlag);
 
         createNotificationChannel(context);
 
